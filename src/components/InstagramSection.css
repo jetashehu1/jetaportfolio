@@ -1,0 +1,52 @@
+.ig {
+  padding: clamp(5rem, 10vw, 9rem) 0 clamp(3rem, 6vw, 5rem);
+}
+
+.ig .section-header__extra {
+  justify-self: end;
+}
+
+.ig__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.4vw, 1.25rem);
+}
+
+.ig__tile a {
+  display: block;
+  overflow: hidden;
+}
+
+.ig__tile .media__img {
+  transition:
+    opacity 1.2s var(--ease),
+    transform 1.4s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .ig__tile a:hover .media__img {
+    transform: scale(1.04);
+  }
+}
+
+@media (max-width: 900px) {
+  .ig .section-header__extra {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 600px) {
+  .ig__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* Nine tiles on two columns leaves one orphan — let the last one span. */
+  .ig__tile:last-child {
+    grid-column: span 2;
+  }
+  .ig__tile:last-child .media {
+    aspect-ratio: 3 / 2 !important;
+  }
+}

@@ -1,0 +1,137 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  max-height: 1200px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--bg);
+  background: var(--placeholder-dark);
+}
+
+.hero__media,
+.hero__media .media {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.hero__media .media {
+  clip-path: none;
+}
+
+.hero__media .media__img {
+  transform: scale(1.08);
+  transition:
+    opacity 1.6s var(--ease),
+    transform 3.2s var(--ease-out);
+}
+
+/* A flat, quiet veil so the title always reads — no gradients. */
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 21, 18, 0.22);
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  text-align: center;
+  padding: 0 var(--gutter);
+}
+
+.hero__title {
+  font-size: clamp(5.5rem, 19vw, 17rem);
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: 0.01em;
+}
+
+.hero__line {
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(0.25em);
+  animation: hero-in 1.6s var(--ease-out) forwards;
+  animation-delay: var(--d);
+}
+
+.hero__subtitle {
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  opacity: 0;
+  animation: hero-in 1.4s var(--ease-out) 600ms forwards;
+}
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  opacity: 0;
+  animation: fade 1.4s var(--ease) 1100ms forwards;
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 42px;
+  background: currentColor;
+  opacity: 0.6;
+  transform-origin: top;
+  animation: scroll-line 2.6s var(--ease) infinite;
+}
+
+@keyframes hero-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  to {
+    opacity: 0.75;
+  }
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    height: 92svh;
+  }
+  .hero__title {
+    font-size: clamp(4.5rem, 25vw, 9rem);
+  }
+  .hero__subtitle {
+    letter-spacing: 0.24em;
+    font-size: 10px;
+  }
+}
