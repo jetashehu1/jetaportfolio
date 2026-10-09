@@ -1,0 +1,10 @@
+.not-found {
+  min-height: 80svh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--header-h) + 4rem) 0 4rem;
+}
+
+.not-found .display {
+  margin: 2rem 0 2.5rem;
+}

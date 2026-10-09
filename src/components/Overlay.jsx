@@ -23,7 +23,7 @@ export default function Overlay({ open, onClose, label, keys = {}, children }) {
   return createPortal(
     <div className="overlay" role="dialog" aria-modal="true" aria-label={label}>
       <div className="overlay__backdrop" onClick={onClose} />
-      <button ref={closeRef} type="button" className="overlay__close eyebrow" onClick={onClose}>
+      <button ref={closeRef} type="button" className="overlay__close" onClick={onClose}>
         Close
       </button>
       {children}

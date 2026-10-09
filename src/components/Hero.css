@@ -1,137 +1,210 @@
+/* ---------- mobile-first: stacked editorial cover ---------- */
+
 .hero {
   position: relative;
-  height: 100vh;
-  height: 100svh;
-  min-height: 560px;
-  max-height: 1200px;
   display: grid;
-  place-items: center;
+  grid-template-columns: 1fr;
+  padding: calc(var(--header-h) + 1.5rem) var(--gutter) 2.5rem;
   overflow: hidden;
-  color: var(--bg);
-  background: var(--placeholder-dark);
 }
 
-.hero__media,
-.hero__media .media {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-}
-
-.hero__media .media {
-  clip-path: none;
-}
-
-.hero__media .media__img {
-  transform: scale(1.08);
-  transition:
-    opacity 1.6s var(--ease),
-    transform 3.2s var(--ease-out);
-}
-
-/* A flat, quiet veil so the title always reads — no gradients. */
-.hero__shade {
-  position: absolute;
-  inset: 0;
-  background: rgba(23, 21, 18, 0.22);
-  pointer-events: none;
-}
-
-.hero__content {
-  position: relative;
-  text-align: center;
-  padding: 0 var(--gutter);
-}
-
-.hero__title {
-  font-size: clamp(5.5rem, 19vw, 17rem);
-  font-weight: 400;
-  line-height: 0.8;
-  letter-spacing: 0.01em;
-}
-
-.hero__line {
+.hero .display--xl {
   display: block;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(0.25em);
-  animation: hero-in 1.6s var(--ease-out) forwards;
-  animation-delay: var(--d);
+  font-size: clamp(4.5rem, 27.5vw, 14rem);
 }
 
-.hero__subtitle {
-  margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
-  font-size: 11px;
-  letter-spacing: 0.32em;
+.hero__first {
+  position: relative;
+  z-index: 1;
+  margin-left: -0.04em;
+}
+
+.hero__roles {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 1.25rem 0 1.5rem;
+  font-size: clamp(1.15rem, 4.6vw, 1.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.hero__role {
   opacity: 0;
-  animation: hero-in 1.4s var(--ease-out) 600ms forwards;
+  transform: translateY(12px);
+  transition:
+    opacity var(--d-mid) var(--ease-soft),
+    transform var(--d-mid) var(--ease-soft);
+  transition-delay: calc(700ms + var(--i) * 90ms);
+}
+
+.hero.is-ready .hero__role {
+  opacity: 1;
+  transform: none;
+}
+
+.hero__portrait {
+  order: 2;
+  position: relative;
+  z-index: 2;
+}
+
+.hero__portrait .media {
+  aspect-ratio: 4 / 5 !important;
+}
+
+.hero__portrait .media__clip {
+  transition-duration: 1.4s;
+  transition-delay: 250ms;
+}
+
+.hero__last {
+  order: 3;
+  position: relative;
+  z-index: 3;
+  margin-top: -0.42em;
+  text-align: right;
+  font-size: clamp(4.5rem, 27.5vw, 14rem);
+  line-height: 0;
+}
+
+.hero__last .display--xl {
+  line-height: 0.8;
+}
+
+.hero__aside {
+  order: 4;
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  opacity: 0;
+  transition: opacity var(--d-slow) var(--ease-soft) 900ms;
+}
+
+.hero.is-ready .hero__aside {
+  opacity: 1;
+}
+
+.hero__statement {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.hero__meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--fg-soft);
 }
 
 .hero__scroll {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(1.5rem, 4vh, 2.5rem);
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.9rem;
-  font-size: 10px;
-  letter-spacing: 0.26em;
-  opacity: 0;
-  animation: fade 1.4s var(--ease) 1100ms forwards;
+  justify-self: start;
 }
 
-.hero__scroll-line {
-  width: 1px;
-  height: 42px;
-  background: currentColor;
-  opacity: 0.6;
-  transform-origin: top;
-  animation: scroll-line 2.6s var(--ease) infinite;
-}
+/* ---------- tablet ---------- */
 
-@keyframes hero-in {
-  to {
-    opacity: 1;
-    transform: none;
+@media (min-width: 600px) and (max-width: 1023px) {
+  .hero__portrait {
+    width: 72%;
+    margin-left: auto;
+  }
+  .hero__roles {
+    align-items: flex-start;
+    position: absolute;
+    left: var(--gutter);
+    top: 52%;
+    margin: 0;
   }
 }
 
-@keyframes fade {
-  to {
-    opacity: 0.75;
-  }
-}
+/* ---------- desktop: asymmetric composition ---------- */
 
-@keyframes scroll-line {
-  0% {
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  45% {
-    transform: scaleY(1);
-    transform-origin: top;
-  }
-  55% {
-    transform: scaleY(1);
-    transform-origin: bottom;
-  }
-  100% {
-    transform: scaleY(0);
-    transform-origin: bottom;
-  }
-}
-
-@media (max-width: 600px) {
+@media (min-width: 1024px) {
   .hero {
-    height: 92svh;
+    display: block;
+    height: 100vh;
+    height: 100svh;
+    min-height: 720px;
+    max-height: 1180px;
+    padding: 0;
   }
-  .hero__title {
-    font-size: clamp(4.5rem, 25vw, 9rem);
+
+  .hero .display--xl,
+  .hero__last {
+    font-size: min(21vw, 36vh);
   }
-  .hero__subtitle {
-    letter-spacing: 0.24em;
-    font-size: 10px;
+
+  .hero__first {
+    position: absolute;
+    top: calc(var(--header-h) + 2.5vh);
+    left: calc(var(--gutter) - 0.06em);
+    transform: translate3d(0, var(--parallax, 0px), 0);
+  }
+
+  .hero__portrait {
+    position: absolute;
+    top: calc(var(--header-h) + 7vh);
+    bottom: 8vh;
+    left: 50%;
+    aspect-ratio: 3 / 4;
+    transform: translateX(-36%);
+  }
+
+  .hero__portrait .media {
+    height: 100%;
+    aspect-ratio: 3 / 4 !important;
+  }
+
+  .hero__last {
+    position: absolute;
+    right: -1.2vw;
+    bottom: 1.5vh;
+    margin: 0;
+  }
+
+  .hero__roles {
+    position: absolute;
+    top: calc(var(--header-h) + 11vh);
+    right: var(--gutter);
+    margin: 0;
+    font-size: clamp(1.2rem, 1.7vw, 1.9rem);
+    padding-top: 1.1rem;
+  }
+
+  .hero__roles::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3.5rem;
+    height: 1px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 1.1s var(--ease-out) 1s;
+  }
+
+  .hero.is-ready .hero__roles::before {
+    transform: scaleX(1);
+  }
+
+  .hero__aside {
+    position: absolute;
+    left: var(--gutter);
+    bottom: 6vh;
+    width: min(24vw, 340px);
+    margin: 0;
+  }
+
+  .hero__statement {
+    font-size: clamp(1.3rem, 1.75vw, 2rem);
   }
 }

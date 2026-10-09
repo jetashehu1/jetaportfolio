@@ -1,0 +1,40 @@
+.intro__statement .intro__indent-1 {
+  padding-left: 1.4em;
+}
+
+.intro__statement .intro__indent-2 {
+  padding-left: 2.8em;
+}
+
+.intro__statement .intro__indent-3 {
+  padding-left: 0.7em;
+}
+
+.intro__body {
+  margin-top: clamp(3.5rem, 8vw, 8rem);
+  row-gap: 1.5rem;
+}
+
+.intro__lead {
+  grid-column: 7 / 12;
+}
+
+.intro__copy {
+  grid-column: 7 / 11;
+}
+
+@media (max-width: 899px) {
+  .intro__statement .intro__indent-1 {
+    padding-left: 0.6em;
+  }
+  .intro__statement .intro__indent-2 {
+    padding-left: 1.2em;
+  }
+  .intro__statement .intro__indent-3 {
+    padding-left: 0.3em;
+  }
+  .intro__lead,
+  .intro__copy {
+    grid-column: 1 / -1;
+  }
+}

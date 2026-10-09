@@ -1,34 +1,69 @@
 .footer {
-  background: var(--ink);
-  color: rgba(242, 239, 231, 0.75);
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--red);
 }
 
-.footer__bar {
+.footer__grid {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 1rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr auto;
+  gap: 1.5rem var(--gutter);
+  align-items: start;
+  color: var(--fg-soft);
 }
 
-.footer__link {
+.footer__grid > :first-child {
+  color: var(--fg);
+}
+
+.footer__roles,
+.footer__links {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer__links a,
+.footer__top {
+  min-height: 44px;
+  align-items: flex-start;
+  color: var(--fg);
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.footer .line-link::after {
+  top: 1.45em;
+  bottom: auto;
+}
+
+.footer__top {
   justify-self: end;
-  transition: color 0.3s var(--ease);
+  align-self: start;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
-.footer__link:hover {
-  color: var(--bg);
+/* Oversized wordmark, cropped by the page edge. */
+.footer__mark {
+  margin: clamp(3rem, 7vw, 6rem) 0 -0.12em calc(var(--gutter) - 0.06em);
+  font-size: 19.2vw;
+  font-weight: 500;
+  line-height: 0.8;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--off-white);
 }
 
-@media (max-width: 700px) {
-  .footer__bar {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+@media (max-width: 899px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
   }
-  .footer__link {
+  .footer__top {
     justify-self: start;
+  }
+  .footer__mark {
+    font-size: 18.6vw;
   }
 }

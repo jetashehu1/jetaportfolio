@@ -1,58 +1,52 @@
 import { about, site } from '../data/site.js';
-import { useResolvedMedia } from '../lib/instagram.jsx';
 import Media from './Media.jsx';
 import Reveal from './Reveal.jsx';
+import RevealText from './RevealText.jsx';
+import SectionLabel from './SectionLabel.jsx';
 import './About.css';
 
+/** Magazine spread: portrait on the left page, words and a short text on the right. */
 export default function About() {
-  const { image } = useResolvedMedia(about.portrait);
-
   return (
-    <section className="about" id="about">
-      <div className="container about__grid">
-        <Reveal className="about__meta">
-          <span className="eyebrow">(02)</span>
-          <span className="eyebrow">Profile</span>
-        </Reveal>
+    <section className="about section theme-light" id="about" aria-labelledby="about-title">
+      <div className="wrap">
+        <SectionLabel index={5} aside={`${site.name} — ${site.location}`}>
+          {about.label}
+        </SectionLabel>
 
-        <div className="about__portrait">
-          <Media
-            src={image}
-            alt={about.portrait.alt}
-            ratio="4 / 5"
-            sizes="(max-width: 900px) 100vw, 40vw"
-            label={image ? null : 'Portrait · 4:5'}
-          />
-        </div>
+        <div className="about__spread">
+          <figure className="about__portrait">
+            <Media src={about.portrait} alt={about.alt} ratio="4 / 5" sizes="(max-width: 899px) 100vw, 45vw" parallax />
+            <figcaption className="label about__caption">
+              <span>{site.name}</span>
+              <span>{site.roles.join(' / ')}</span>
+            </figcaption>
+          </figure>
 
-        <div className="about__text">
-          <Reveal as="h2" className="about__title display">
-            <span>About</span>
-            <span>{site.firstName}</span>
-          </Reveal>
-
-          <Reveal className="about__body" delay={100}>
-            {about.body.map((paragraph, index) => (
-              <p key={index} className={index === 0 ? 'about__lead' : undefined}>
-                {paragraph}
-              </p>
-            ))}
-          </Reveal>
-
-          <Reveal as="dl" className="about__facts" delay={180}>
-            <div>
-              <dt className="eyebrow">Location</dt>
-              <dd className="eyebrow">{site.location}</dd>
+          <div className="about__text">
+            <RevealText id="about-title" className="display about__words" lines={about.words} />
+            <div className="about__body">
+              {about.body.map((paragraph, index) => (
+                <Reveal key={index} as="p" className={index === 0 ? 'lead' : 'copy'} delay={index * 120}>
+                  {paragraph}
+                </Reveal>
+              ))}
             </div>
-            <div>
-              <dt className="eyebrow">Availability</dt>
-              <dd className="eyebrow">{site.availability}</dd>
-            </div>
-            <div>
-              <dt className="eyebrow">Practice</dt>
-              <dd>{about.services.join(', ')}</dd>
-            </div>
-          </Reveal>
+            <Reveal as="dl" className="about__facts label" delay={200}>
+              <div>
+                <dt>Based in</dt>
+                <dd>{site.location}</dd>
+              </div>
+              <div>
+                <dt>Experience</dt>
+                <dd>{site.experience} years</dd>
+              </div>
+              <div>
+                <dt>Status</dt>
+                <dd>{site.availability}</dd>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>

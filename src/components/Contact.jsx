@@ -1,49 +1,70 @@
-import { contact, instagram } from '../data/site.js';
+import { contact, links } from '../data/site.js';
 import Reveal from './Reveal.jsx';
+import RevealText from './RevealText.jsx';
+import Rule from './Rule.jsx';
+import SectionLabel from './SectionLabel.jsx';
 import './Contact.css';
 
 export default function Contact() {
+  const ctaHref = links.email ? `mailto:${links.email}` : links.instagram;
+  const external = !links.email;
   const rows = [
-    { label: 'Instagram', value: `${instagram.handle} ↗`, href: instagram.url, external: true },
-    contact.email
-      ? { label: 'Email', value: contact.email, href: `mailto:${contact.email}` }
-      : { label: 'Email', value: 'Coming soon' },
-    contact.phone && { label: 'Phone', value: contact.phone, href: `tel:${contact.phone.replace(/\s/g, '')}` },
-    ...contact.extra,
-  ].filter(Boolean);
+    { label: 'Email', value: links.email, href: links.email && `mailto:${links.email}` },
+    { label: 'Instagram', value: links.instagramHandle, href: links.instagram, external: true },
+    { label: 'Behance', value: links.behance && 'Behance profile', href: links.behance, external: true },
+  ];
 
   return (
-    <section className="contact" id="contact">
-      <div className="container">
-        <Reveal className="contact__meta">
-          <span className="eyebrow">(05)</span>
-          <span className="eyebrow">Contact</span>
-        </Reveal>
+    <section className="contact section theme-cream" id="contact" aria-labelledby="contact-title">
+      <div className="wrap">
+        <SectionLabel index={6}>{contact.label}</SectionLabel>
 
-        <Reveal as="h2" className="contact__title display" delay={80}>
-          <span>Let&rsquo;s</span>
-          <span className="contact__indent">Create</span>
-          <em>Something.</em>
-        </Reveal>
+        <RevealText
+          id="contact-title"
+          className="display contact__headline"
+          lines={contact.headline.map((text, index) => ({ text, className: `contact__line-${index}` }))}
+        />
 
-        <Reveal as="ul" className="contact__list" delay={160}>
-          {rows.map((row) => (
-            <li key={row.label} className="contact__row">
-              <span className="eyebrow contact__label">{row.label}</span>
-              {row.href ? (
-                <a
-                  className="contact__value"
-                  href={row.href}
-                  {...(row.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                >
-                  {row.value}
-                </a>
-              ) : (
-                <span className="contact__value contact__value--muted">{row.value}</span>
-              )}
-            </li>
-          ))}
-        </Reveal>
+        <div className="contact__grid">
+          <Reveal as="p" className="label contact__support">
+            {contact.support.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </Reveal>
+
+          <Reveal className="contact__cta-wrap" delay={120}>
+            <a
+              href={ctaHref}
+              className="contact__cta"
+              data-cursor="↗"
+              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            >
+              <span>{contact.cta}</span>
+              <span className="arrow">↗</span>
+            </a>
+            <Rule />
+          </Reveal>
+
+          <Reveal as="ul" className="contact__list" delay={200}>
+            {rows.map((row) => (
+              <li key={row.label} className="contact__row">
+                <span className="label contact__label">{row.label}</span>
+                {row.href ? (
+                  <a
+                    href={row.href}
+                    className="contact__value line-link"
+                    {...(row.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {row.value}
+                    {row.external && <span className="arrow">↗</span>}
+                  </a>
+                ) : (
+                  <span className="contact__value contact__value--soon">Coming soon</span>
+                )}
+              </li>
+            ))}
+          </Reveal>
+        </div>
       </div>
     </section>
   );

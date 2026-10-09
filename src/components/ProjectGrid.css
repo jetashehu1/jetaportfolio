@@ -1,0 +1,75 @@
+.work__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: end;
+  margin-bottom: clamp(4rem, 9vw, 9rem);
+}
+
+.work__head .display {
+  grid-column: 1 / 10;
+}
+
+.work__indent {
+  padding-left: 1.6em;
+}
+
+.work__note {
+  grid-column: 10 / 13;
+  padding-bottom: 0.6rem;
+}
+
+.work__rows {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5rem, 10vw, 11rem);
+}
+
+.work__row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: start;
+}
+
+.work__row .project-card {
+  grid-column: var(--col);
+  margin-top: var(--offset);
+}
+
+/* Full-bleed cards break out of the gutter. */
+.work__row .project-card--full .project-card__media {
+  margin: 0 calc(-1 * var(--gutter));
+}
+
+@media (max-width: 899px) {
+  .work__head .display,
+  .work__note {
+    grid-column: 1 / -1;
+  }
+  .work__indent {
+    padding-left: 0.8em;
+  }
+  .work__note {
+    margin-top: 1.5rem;
+  }
+  .work__rows {
+    gap: 4rem;
+  }
+  .work__row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4rem;
+  }
+  .work__row .project-card {
+    margin-top: 0;
+  }
+  /* Keep some rhythm: small cards sit inset, alternating sides. */
+  .work__row .project-card--small {
+    width: 82%;
+  }
+  .work__row .project-card--small:nth-child(odd) {
+    align-self: flex-end;
+  }
+}

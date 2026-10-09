@@ -2,28 +2,32 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  color: var(--bg);
-  animation: overlay-in 0.5s var(--ease) both;
+  color: var(--off-white);
+  animation: overlay-in var(--d-fast) var(--ease) both;
 }
 
 .overlay__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(23, 21, 18, 0.97);
+  background: var(--black);
 }
 
 .overlay__close {
   position: absolute;
-  top: 1.5rem;
+  top: 0.75rem;
   right: var(--gutter);
   z-index: 3;
-  padding: 0.5rem 0;
-  opacity: 0.75;
-  transition: opacity 0.3s var(--ease);
+  min-height: 44px;
+  padding: 0 0.25rem;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color var(--d-fast) var(--ease);
 }
 
 .overlay__close:hover {
-  opacity: 1;
+  color: var(--red);
 }
 
 @keyframes overlay-in {

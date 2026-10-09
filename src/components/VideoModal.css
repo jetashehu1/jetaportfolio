@@ -1,12 +1,12 @@
 .video-modal {
   position: absolute;
-  inset: 4.5rem var(--gutter) 1.5rem;
+  inset: 4.25rem var(--gutter) 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  animation: lightbox-in 0.7s var(--ease-out) both;
+  animation: lightbox-in var(--d-mid) var(--ease-out) both;
 }
 
 .video-modal__frame {
@@ -14,24 +14,26 @@
   pointer-events: auto;
   background: #000;
   max-width: 100%;
-  max-height: calc(100% - 3rem);
+  max-height: calc(100% - 2.75rem);
 }
 
 .video-modal--vertical .video-modal__frame {
   aspect-ratio: 9 / 16;
-  height: calc(100% - 3rem);
+  height: calc(100% - 2.75rem);
 }
 
 .video-modal--horizontal .video-modal__frame {
   aspect-ratio: 16 / 9;
-  width: min(100%, 1400px);
+  width: min(100%, 1600px, calc((100svh - 9rem) * 16 / 9));
 }
 
 .video-modal__video,
-.video-modal__empty,
-.video-modal__poster {
+.video-modal__empty {
   width: 100%;
   height: 100%;
+}
+
+.video-modal__video {
   object-fit: contain;
 }
 
@@ -39,24 +41,28 @@
   position: relative;
   display: grid;
   place-items: center;
-  background: var(--placeholder-dark);
+  padding: 1.5rem;
+  text-align: center;
+  background: #111110;
+  color: rgba(245, 242, 235, 0.55);
 }
 
 .video-modal__poster {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  opacity: 0.45;
+  opacity: 0.35;
 }
 
-.video-modal__empty-body {
+.video-modal__empty .label {
   position: relative;
-  color: var(--bg);
 }
 
 .video-modal__caption {
-  margin: 1.25rem 0 0;
-  color: rgba(242, 239, 231, 0.6);
+  margin-top: 1rem;
+  color: rgba(245, 242, 235, 0.6);
 }
 
 @media (max-width: 600px) {

@@ -1,0 +1,118 @@
+.project-card__link {
+  display: block;
+}
+
+.project-card__media {
+  overflow: hidden;
+}
+
+.project-card__media .media__img,
+.project-card__media .media__slot,
+.project-card__media .vp__poster,
+.project-card__media .vp__video {
+  transition:
+    opacity var(--d-slow) var(--ease-soft),
+    transform 1.2s var(--ease-out);
+}
+
+.project-card__meta {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  column-gap: clamp(0.9rem, 1.6vw, 1.5rem);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+/* Thin neutral line; the red one draws across it on hover. */
+.project-card__meta::before,
+.project-card__line {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.project-card__meta::before {
+  background: var(--line);
+}
+
+.project-card__line {
+  background: var(--red);
+  transform: scaleX(0.06);
+  transform-origin: left;
+  transition: transform var(--d-slow) var(--ease-out);
+}
+
+.project-card__index {
+  color: var(--red);
+  padding-top: 0.25rem;
+}
+
+.project-card__title {
+  font-size: clamp(1.35rem, 2.2vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  transition: transform var(--d-mid) var(--ease-out);
+}
+
+.project-card--full .project-card__title {
+  font-size: clamp(1.8rem, 4vw, 4.6rem);
+  letter-spacing: -0.05em;
+}
+
+.project-card__summary {
+  margin-top: 0.6rem;
+  color: var(--fg-soft);
+  transition: transform var(--d-mid) var(--ease-out) 40ms;
+}
+
+.project-card__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  padding-top: 0.25rem;
+  white-space: nowrap;
+}
+
+.project-card__year {
+  color: var(--fg-soft);
+}
+
+.project-card--small .project-card__aside {
+  display: none;
+}
+
+@media (hover: hover) {
+  .project-card__link:hover .media__img,
+  .project-card__link:hover .media__slot,
+  .project-card__link:hover .vp__poster,
+  .project-card__link:hover .vp__video {
+    transform: scale(1.035);
+  }
+  .project-card__link:hover .project-card__line {
+    transform: scaleX(1);
+  }
+  .project-card__link:hover .project-card__title,
+  .project-card__link:hover .project-card__summary {
+    transform: translateX(0.5rem);
+  }
+  .project-card__link:hover .arrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (max-width: 899px) {
+  .project-card__aside {
+    display: none;
+  }
+  .project-card__meta {
+    grid-template-columns: auto 1fr;
+  }
+}

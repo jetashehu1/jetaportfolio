@@ -1,74 +1,89 @@
-# Jeta Shehu — Photography & Visual Portfolio
+# Jeta Shehu — Photographer, Filmmaker & Creative
 
-Editorial, image-first portfolio for **Jeta Shehu** — Photographer & Visual Creator.
-Built with React + Vite. No UI libraries; plain CSS per component.
+Editorial portfolio built with React + Vite. It uses no UI or routing library, just plain CSS per component.
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # production build in dist/
+npm run build    # production build → dist/
+npm run preview  # serve the build
 ```
 
-## Structure
+## Where things live
+
+| What | File |
+| --- | --- |
+| Site copy: hero, intro, experience, statement, about, contact, links, nav | `src/data/site.js` |
+| Projects, project pages and the Selected Work layout | `src/data/projects.js` |
+| Selected Clients list (order) | `src/data/clients.js` |
+| Photography gallery and film / reels | `src/data/media.js` |
+| Colours, type scale, easing | `src/styles/global.css` (`:root`) |
+
+Pages: `/` (home) and `/work/<slug>` (one per project in `projects.js`). Unknown URLs show a 404 page.
+
+## Adding photographs and films
+
+Every media path in the data files points into `public/`. If a file is missing, the site shows a
+placeholder frame with the expected path written on it (for example `images/zeros/hero.jpg`).
+To show the real file, put it at that path. No code changes are needed. The site never requests missing files.
 
 ```
-api/instagram.js          Serverless proxy for the official Instagram API (token stays server-side)
-src/data/site.js          Copy: name, hero image, about text, contact details, navigation
-src/data/portfolio.js     Curated work layout, videos, Instagram fallback
-src/lib/instagram.jsx     Feed provider + helpers that resolve media from Instagram permalinks
-src/components/           Header, Hero, Work, Lightbox, Motion, VideoModal, About,
-                          InstagramSection, Contact, Footer, Media, Reveal, Overlay
+public/images/hero/portrait.jpg            hero portrait (the only preloaded image)
+public/images/about/portrait.jpg           about spread
+public/images/<project>/hero.jpg           project cover (cards + project page)
+public/images/<project>/01.jpg …           project gallery
+public/images/photography/01.jpg … 10.jpg  photography gallery
+public/images/film/*.jpg                   film posters
+public/videos/showreel.mp4                 showreel (+ optional showreel-mobile.mp4)
+public/videos/reels/01.mp4 …               vertical reels
+public/videos/<project>/preview.mp4        optional looping cover for a project card
+public/videos/<project>/film.mp4           project films
 ```
 
-## Adding the real work
+Project folders: `golden-eagle`, `natural`, `zeros`, `art-center`, `hotel-prishtina`,
+`zgatar-electronic`, `sydvast-montage`, `lebenstmanifesting`.
 
-No posts or projects are invented. Every image slot starts empty and shows as a quiet
-labelled frame until real media is added. For each slot in `src/data/portfolio.js`
-(and for the hero/portrait in `src/data/site.js`), set **one** of the following:
+**Image sizes.** Export the original at about 2400px on the long edge. For responsive loading, add
+smaller versions next to it, named `-640`, `-1280` and `-1920` (for example `hero-640.webp`,
+`hero-1280.webp`, `hero-1920.webp`). The site picks them up automatically. One way to make them:
+`npx sharp-cli -i hero.jpg -o hero-1280.webp resize 1280`.
 
-- `src`: a file in `public/` (e.g. `/work/portrait-01.jpg`) or any image URL. This is the most
-  reliable option and is recommended for the curated *Selected Work* section. Export
-  images at ~2400px on the long edge, as WebP/JPEG at ~80% quality. Add `srcSet`/`sizes` for
-  responsive variants.
-- `instagram`: the post or reel permalink from @jettashehu, for example
-  `https://www.instagram.com/p/XXXXXXXX/`. The image (or video, for reels) is resolved at
-  runtime from the API feed below.
+**Video.** Use H.264 MP4. Keep previews short (6–15s), muted-friendly and around 1080p and 2–6 MB.
+For phones, add a lighter `mobile` file (720p). Previews load only when they come near the screen,
+play only while visible, and pause when they leave. Each preview shows its poster first. Clicking
+opens the full film with sound.
 
-Every item also takes `category`, `title`, `alt` and `focus` (CSS `object-position`).
-On desktop, the layout of each row of *Selected Work* comes from `col` (12-column grid), `ratio`,
-`offset` and `align`, so you can arrange it like the spreads of a photo book.
+## Editing projects
 
-Videos (`videos` array) take `orientation` (`vertical` / `horizontal`), `poster`, `video` (an
-.mp4 file) and/or `instagram` (a reel permalink). If no playable file is available, the modal
-links out to the reel on Instagram.
+Each project in `projects.js` has these fields:
 
-## Instagram (official Meta API)
+- `client`, `year`, `role`, `services`, `summary`, `intro`
+- `cover`: `image`, plus an optional `video`
+- `gallery`: rows of `image(src, layout, ratio)` / `video(src, poster, layout, ratio)`
 
-Instagram does not allow its media to be scraped. Real posts are loaded through the
-**Instagram API with Instagram Login** (`graph.instagram.com`), which requires @jettashehu to be
-a Professional (Business/Creator) account.
+Layouts: `full`, `wide`, `wide-right`, `center`, `half-left`, `half-right`, `portrait-left`,
+`portrait-right`, `small-left`, `small-right`. Add `{ offset: 10 }` to drop an item lower and
+create asymmetry.
 
-1. Create an app at <https://developers.facebook.com/> and add the *Instagram* product
-   (API setup with Instagram login).
-2. Add @jettashehu as an Instagram tester, then generate an access token with the
-   `instagram_business_basic` permission.
-3. Exchange the token for a **long-lived token** (valid for 60 days) and set it as a server environment variable:
-   `INSTAGRAM_ACCESS_TOKEN=...` (copy `.env.example` to `.env` for local development).
-4. Refresh the token before it expires (for example, with a monthly cron job):
-   `GET https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=TOKEN`
+`year` is left empty for every project, so no year is shown yet. Fill it in and it appears on the cards and project pages.
 
-Once the token is set:
+The home page composition is set in `workLayout` in the same file. It is a list of rows; each item has a
+12-column `col`, a `ratio` and an optional `offset`.
 
-- **From Instagram** shows the latest 9 posts automatically.
-- Any slot with an `instagram` permalink gets its image or video from the feed.
-- Without a token, the site falls back to `instagramFallback`, and then to empty frames. Nothing breaks.
+## Links
 
-`api/instagram.js` runs as a Vercel serverless function in production and as Vite dev
-middleware locally. On other hosts, deploy it as a function at `/api/instagram`, or set
-`VITE_INSTAGRAM_FEED_URL` to the address where it is deployed. Responses are cached at the edge for one hour,
-because Instagram CDN URLs are signed and expire.
+Set `links.email` and `links.behance` in `site.js`. Until then, "Get in touch" opens Instagram,
+the contact list shows "Coming soon", and the Behance link is hidden in the menu and footer.
 
-## Editing copy
+## Deploy
 
-All text lives in `src/data/site.js`. This includes the About paragraphs, location, availability,
-email, phone, and extra contact rows (`contact.extra: [{ label, value, href }]`).
+This is a single-page app with client-side routes, so the host must send all paths to `index.html`.
+That is already configured for Vercel (`vercel.json`) and Netlify (`public/_redirects`).
+
+## Optional: Instagram API
+
+`api/instagram.js` is a server-side proxy for the official Instagram API (Instagram API with Instagram
+Login). With `INSTAGRAM_ACCESS_TOKEN` set on the server and `VITE_INSTAGRAM_FEED=true`, any media
+item can use `instagram: 'https://www.instagram.com/p/…/'` instead of a local file. This is off by
+default, so the site makes no request to it. Local files are recommended for the portfolio,
+because Instagram's media URLs expire.

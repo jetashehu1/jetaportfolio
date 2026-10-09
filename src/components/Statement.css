@@ -1,0 +1,38 @@
+.statement {
+  padding: clamp(8rem, 18vw, 18rem) 0;
+}
+
+.statement__text {
+  color: var(--cream);
+}
+
+.statement__text .statement__line-1 {
+  padding-left: 2em;
+}
+
+.statement__text .statement__line-2 {
+  padding-left: 0.8em;
+}
+
+.statement__text .statement__line-3 {
+  padding-left: 2.6em;
+}
+
+.statement__rule {
+  margin: clamp(3rem, 6vw, 6rem) 0 0 41.666%;
+}
+
+@media (max-width: 899px) {
+  .statement__text .statement__line-1 {
+    padding-left: 0.7em;
+  }
+  .statement__text .statement__line-2 {
+    padding-left: 0.3em;
+  }
+  .statement__text .statement__line-3 {
+    padding-left: 1em;
+  }
+  .statement__rule {
+    margin-left: 30%;
+  }
+}

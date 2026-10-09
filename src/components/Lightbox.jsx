@@ -1,35 +1,43 @@
 import { useRef } from 'react';
-import { useResolvedMedia } from '../lib/instagram.jsx';
+import { resolveImage, slotLabel } from '../lib/media.js';
 import Overlay from './Overlay.jsx';
 import './Lightbox.css';
 
 function Slide({ item }) {
-  const { image } = useResolvedMedia(item);
-  const label = item.title ? `${item.category} — ${item.title}` : item.category;
+  const image = resolveImage(item.src);
   return (
-    <figure className="lightbox__figure" key={item.id}>
+    <figure className="lightbox__figure">
       {image ? (
-        <img className="lightbox__img" src={image} alt={item.alt || label} decoding="async" />
+        <img
+          className="lightbox__img"
+          src={image.src}
+          srcSet={image.srcSet}
+          sizes="100vw"
+          alt={item.alt || ''}
+          decoding="async"
+        />
       ) : (
-        <div className="lightbox__slot" style={{ aspectRatio: item.ratio }} aria-label="Image not added yet" />
+        <div className="lightbox__slot" style={{ aspectRatio: item.ratio }} role="img" aria-label="Image not added yet">
+          <span className="label">{slotLabel(item.src)}</span>
+        </div>
       )}
     </figure>
   );
 }
 
+/** Black, centred, nothing else: image, counter, previous / next, close. */
 export default function Lightbox({ items, index, onChange, onClose }) {
   const touchStart = useRef(null);
   const open = index !== null && index !== undefined;
   const count = items.length;
   const go = (step) => onChange((current) => (current + step + count) % count);
-
   const item = open ? items[index] : null;
 
   return (
     <Overlay
       open={open}
       onClose={onClose}
-      label="Image gallery"
+      label="Image viewer"
       keys={{ ArrowRight: () => go(1), ArrowLeft: () => go(-1) }}
     >
       {item && (
@@ -44,22 +52,18 @@ export default function Lightbox({ items, index, onChange, onClose }) {
             touchStart.current = null;
           }}
         >
-          <Slide key={item.id} item={item} />
+          <Slide key={item.src} item={item} />
 
-          <div className="lightbox__bar">
-            <span className="eyebrow">
-              {String(index + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
-            </span>
-            <span className="lightbox__caption">
-              <span className="eyebrow">{item.category}</span>
-              {item.title && <em>{item.title}</em>}
+          <div className="lightbox__bar label">
+            <span>
+              <span className="red">{String(index + 1).padStart(2, '0')}</span> / {String(count).padStart(2, '0')}
             </span>
             <span className="lightbox__nav">
-              <button type="button" className="eyebrow" onClick={() => go(-1)}>
-                Prev
+              <button type="button" onClick={() => go(-1)} aria-label="Previous image">
+                ← Prev
               </button>
-              <button type="button" className="eyebrow" onClick={() => go(1)}>
-                Next
+              <button type="button" onClick={() => go(1)} aria-label="Next image">
+                Next →
               </button>
             </span>
           </div>
