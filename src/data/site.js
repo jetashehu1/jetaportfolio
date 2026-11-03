@@ -23,7 +23,7 @@ export const links = {
   instagram: 'https://www.instagram.com/jettashehu/',
   instagramHandle: '@jettashehu',
   behance: '', // e.g. 'https://www.behance.net/jetashehu' — hidden until set
-  email: '', //   e.g. 'hello@jetashehu.com' — "Get in touch" falls back to Instagram until set
+  email: 'shehujeta93@gmail.com',
 };
 
 /** Header navigation — `#id` points at a section on the home page. */
